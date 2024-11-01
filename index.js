@@ -1,13 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2; // ATTENTION AU .v2
+const cors = require("cors");
 
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/vinted");
+mongoose.connect(process.env.MONGO_URI);
 
 // configuration de cloudinary
 cloudinary.config({
