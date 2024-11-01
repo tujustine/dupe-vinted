@@ -33,8 +33,6 @@ router.post(
         owner: req.user.id,
       });
 
-      // await newOffer.save();
-
       if (
         !title ||
         !description ||
@@ -135,7 +133,7 @@ router.put(
         ];
         offerToModify.product_price = Number(price);
 
-        // gérer picture : tout vider et remettre
+        // picture : supprimer toutes les photos et les remettre
         const pathLength =
           offerToModify.product_image[0].public_id.split("/").length;
 
@@ -145,7 +143,6 @@ router.put(
           .join("/");
 
         await cloudinary.api.delete_resources_by_prefix(picturePath);
-        // await cloudinary.api.delete_folder(picturePath);
 
         const picturesToUpload = req.files.picture;
 
@@ -195,8 +192,6 @@ router.delete(
       if (!offerToDelete) {
         return res.status(400).json({ message: "Bad Request" });
       } else {
-        // picturePublicID =
-        //   offerToDelete.product_image[0].public_id.split("/")[2];
         const pathLength =
           offerToDelete.product_image[0].public_id.split("/").length;
 
@@ -205,7 +200,7 @@ router.delete(
           .slice(0, pathLength - 1)
           .join("/");
 
-        // on supprimer les images contenu dans notre dossier
+        // on supprime les images contenues dans notre dossier
         await cloudinary.api.delete_resources_by_prefix(picturePath);
         // on supprime le dossier vide
         await cloudinary.api.delete_folder(picturePath);
@@ -266,8 +261,6 @@ router.get("/offers", async (req, res) => {
           offers: findOffers,
         })
     );
-    // if (!findOffer) {
-    //   return res.status(400).json({ message: "No result for your request 🫣" });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

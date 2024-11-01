@@ -51,11 +51,6 @@ router.post("/user/signup", fileUpload(), async (req, res) => {
 
       await newUser.save();
 
-      //   const userDisplay = await User.findOne(newUser).select(
-      //     "_id token account"
-      //   );
-
-      //   return res.status(201).json(userDisplay);
       return res.status(201).json({
         _id: newUser._id,
         token: newUser.token,
@@ -79,12 +74,6 @@ router.post("/user/login", async (req, res) => {
       const salt = findUser.salt;
       const hash = SHA256(userPassword + salt).toString(encBase64);
       if (hash === findUser.hash) {
-        // const userDisplay = await User.findOne({
-        //   email: req.body.email,
-        // }).select("_id token account");
-
-        // return res.status(201).json(userDisplay);
-
         return res.status(201).json({
           _id: findUser._id,
           token: findUser.token,
